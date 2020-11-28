@@ -11,9 +11,7 @@ const app = express();
 module.exports = app;
 
 // Configure environments
-environment.config(function() {
-    app.use(express.session({ cookie: { maxAge: 60000 }}));
-});
+environment.config();
 
 // Middleware for API key to access API gateway.
 app.use(require('./Application/Middleware/APIValidator')());
