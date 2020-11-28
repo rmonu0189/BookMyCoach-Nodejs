@@ -7,19 +7,11 @@
     "dialect": "postgres",
     "logging": false
   },
-  "test": {
-    "username": "monurathor",
-    "password": null,
-    "database": "monurathor",
-    "host": "localhost",
-    "dialect": "postgres",
-    "logging": false
-  },
   "production": {
-    "username": "monurathor",
-    "password": null,
-    "database": "monurathor",
-    "host": "localhost",
+    "username": "",
+    "password": "",
+    "database": "BookMyCoach",
+    "host": "bookmycoach.cfewzxeesrb4.ap-south-1.rds.amazonaws.com",
     "dialect": "postgres",
     "logging": false
   }
