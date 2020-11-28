@@ -7,13 +7,14 @@ const router = express.Router();
 
 // ############ Controllers ##########
 const userController = require('../Controller/UserController')
+const version = '/api/v1'
 
 // ######################################
 // ############ All Private Routes #######
 // ######################################
 
-app.get('/user', userController.getUser)
-app.put('/user', validate(requestBody.user.update), userController.updateProfile)
+app.get(version + '/user', userController.getUser)
+app.put(version + '/user', validate(requestBody.user.update), userController.updateProfile)
 
 // ######################################
 // ############ End Private Routes #######
