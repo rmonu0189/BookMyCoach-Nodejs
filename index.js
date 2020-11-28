@@ -1,17 +1,16 @@
+'use strict';
 const express =     require('express');
 const bodyParser =  require('body-parser');
-const environment = require('dotenv');
 const response =    require('./Application/Model/Response');
 const { ValidationError } = require('express-validation');
+
+require('dotenv').config();
 const accessToken = require('./Application/Model/AccessToken');
 const user =        require('./Application/Model/User');
 
 // Setup express module
 const app = express();
 module.exports = app;
-
-// Configure environments
-environment.config();
 
 // Middleware for API key to access API gateway.
 app.use(require('./Application/Middleware/APIValidator')());
