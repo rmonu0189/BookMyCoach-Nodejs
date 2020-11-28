@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "monurathor",
+    "password": null,
+    "database": "monurathor",
+    "host": "localhost",
+    "dialect": "postgres",
+    "logging": false
+  },
+  "test": {
+    "username": "monurathor",
+    "password": null,
+    "database": "monurathor",
+    "host": "localhost",
+    "dialect": "postgres",
+    "logging": false
+  },
+  "production": {
+    "username": "monurathor",
+    "password": null,
+    "database": "monurathor",
+    "host": "localhost",
+    "dialect": "postgres",
+    "logging": false
+  }
+}
