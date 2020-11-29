@@ -42,7 +42,8 @@ exports.update = async (userId, fullName, bio, price, profilePhoto, latitude, lo
         isProfileComplete: true
     };
     await User.update(param, { where: {id: userId}});
-    const updateUser = await User.findById(userId);
+    const updateUser = await this.findById(userId);
+    updateUser.password = undefined;
     return updateUser;
 }
 

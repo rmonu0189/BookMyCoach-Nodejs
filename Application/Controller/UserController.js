@@ -48,8 +48,8 @@ exports.updateProfile = async (req, res) => {
     const latitude = req.body.latitude || null;
     const longitude = req.body.longitude || null;
     const profilePhoto = req.body.profilePhoto || null;
-    await user.update(userId, fullName, bio, price, profilePhoto, latitude, longitude);
-    return response.success(res, 'User updated successfully', {});
+    const updatedUser = await user.update(userId, fullName, bio, price, profilePhoto, latitude, longitude);
+    return response.success(res, 'User updated successfully', updatedUser);
 }
 
 exports.nearbyCoaches = async (req, res) => {
