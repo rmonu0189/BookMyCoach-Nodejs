@@ -11,7 +11,7 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
-      gameId: {
+      sportId: {
         type: Sequelize.INTEGER
       },
       isPrimary: {

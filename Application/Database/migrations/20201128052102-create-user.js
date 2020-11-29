@@ -49,6 +49,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.DOUBLE
       },
+      isProfileComplete: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

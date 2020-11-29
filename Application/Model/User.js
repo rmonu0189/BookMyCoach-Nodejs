@@ -1,5 +1,9 @@
 'use strict';
-const User      = require('../Database/models').User
+const User      = require('../Database/models').User;
+const UserSport     = require('../Database/models').UserSport;
+const Sport     = require('../Database/models').Sport;
+const { array } = require('joi');
+const sequelize = require('sequelize');
 
 exports.findByEmail = async (email) => {
     const result = await User.findOne({ where: {email: email}});
@@ -34,8 +38,28 @@ exports.update = async (userId, fullName, bio, price, profilePhoto, latitude, lo
         price: price,
         profilePhoto: profilePhoto,
         latitude: latitude,
-        longitude: longitude
+        longitude: longitude,
+        isProfileComplete: true
     };
-    const result = await User.update(param, { where: {id: userId}});
-    return result;
+    await User.update(param, { where: {id: userId}});
+    const updateUser = await User.findById(userId);
+    return updateUser;
+}
+
+exports.nearbyCoaches = async (latitude, longitude) => {
+    const users = await User.findAll({
+        attributes: [
+            'id', 'email', 'mobile', 'profilePhoto', 'userType', 'bio', 'price', 'rating', 'latitude', 'longitude',
+            [sequelize.literal("6371 * acos(cos(radians("+latitude+")) * cos(radians(latitude)) * cos(radians("+longitude+") - radians(longitude)) + sin(radians("+latitude+")) * sin(radians(latitude)))"),'distance']
+        ],
+        include: {
+            model: UserSport, 
+            as: 'userSports',
+            include: {model: Sport, as: 'sport'}
+        },
+        where: {userType: 'coach'},
+        order: sequelize.col('distance'),
+        limit: 20
+    });
+    return users;
 }

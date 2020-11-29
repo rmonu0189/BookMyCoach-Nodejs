@@ -41,7 +41,6 @@ app.use(function(req, res, next) {
     return response.failed(res, 404) 
 });
 
-
 const port = process.env.SERVER_PORT || 3000;
 app.listen(port, function(error) {
     if(error) console.log(error);
