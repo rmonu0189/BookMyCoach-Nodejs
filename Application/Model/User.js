@@ -58,7 +58,7 @@ exports.nearbyCoaches = async (latitude, longitude) => {
             as: 'userSports',
             include: {model: Sport, as: 'sport'}
         },
-        where: {userType: 'coach'},
+        where: {userType: 'coach', isProfileComplete: true},
         order: sequelize.col('distance'),
         limit: 20
     });
