@@ -82,3 +82,8 @@ exports.updateUserSports = async (userId, sports) => {
     await User.update({isProfileComplete: true}, { where: {id: userId}});
     return result;
 }
+
+exports.updatePassword = async (userId, password) => {
+    await User.update({password: password}, { where: {id: userId}});
+    return true;
+}

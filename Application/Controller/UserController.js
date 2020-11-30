@@ -68,6 +68,19 @@ exports.updateUserSports = async (req, res) => {
     return response.success(res, '', updatedUser);
 }
 
+exports.changePassword = async (req, res) => {
+    const email = req.currentUser.email;
+    const oldPassword = SHA512(req.body.oldPassword);
+    const newPassword = SHA512(req.body.newPassword);
+    const findUser = await user.findByEmailAndPassword(email, oldPassword);
+    if(findUser) {
+        await user.updatePassword(req.currentUser.id, newPassword);
+        return response.success(res, "Password changed successfully", {});
+    } else {
+        return response.failed(res, 603);
+    }
+}
+
 exports.logout = async (req, res) => {
     const token = req.token;
     accessToken.destroy(token)

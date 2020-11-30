@@ -7,5 +7,6 @@ exports.codes = {
     500: "Internal server error",
     600: "User already exist",
     601: "You don't have permission to update this user's profile",
-    602: "You have entered invalid credentials"
+    602: "You have entered invalid credentials",
+    603: "Old password does not match"
 }

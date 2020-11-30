@@ -23,3 +23,10 @@ exports.update = {
         fullName: Joi.string().regex(/[a-zA-Z0-9]{3,30}/).required()
     }).unknown(true)
 }
+
+exports.changePassword = {
+    body: Joi.object({
+        oldPassword: Joi.string().regex(/[a-zA-Z0-9]{6,30}/).required(),
+        newPassword: Joi.string().regex(/[a-zA-Z0-9]{6,30}/).required()
+    }).unknown(true)
+}

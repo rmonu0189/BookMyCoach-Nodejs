@@ -18,6 +18,7 @@ app.put(version + '/user', validate(requestBody.user.update), userController.upd
 app.put(version + '/user/sports', userController.updateUserSports);
 app.get(version + '/coach/nearby', userController.nearbyCoaches);
 app.delete(version + '/user/logout', userController.logout);
+app.patch(version + '/user/changePassword', validate(requestBody.user.changePassword), userController.changePassword);
 
 // ######################################
 // ############ End Private Routes #######
