@@ -11,7 +11,11 @@ exports.findByEmail = async (email) => {
 }
 
 exports.findById = async (userId) => {
-    const result = await User.findOne({ where: {id: userId}});
+    const result = await User.findOne({ 
+        where: {id: userId},
+        include: {model: UserSport, as: 'userSports'},
+        attributes: ['id', 'fullName', 'email', 'mobile', 'profilePhoto', 'userType', 'bio', 'price', 'rating', 'latitude', 'longitude', 'isProfileComplete']
+    });
     return result;
 }
 
@@ -31,7 +35,7 @@ exports.create = async (fullName, email, password, userType) => {
     return result;
 }
 
-exports.update = async (userId, fullName, bio, price, profilePhoto, latitude, longitude) => {
+exports.update = async (userId, fullName, bio, price, profilePhoto, latitude, longitude, isProfileComplete) => {
     const param = {
         fullName: fullName,
         bio: bio,
@@ -39,11 +43,10 @@ exports.update = async (userId, fullName, bio, price, profilePhoto, latitude, lo
         profilePhoto: profilePhoto,
         latitude: latitude,
         longitude: longitude,
-        isProfileComplete: true
+        isProfileComplete: isProfileComplete
     };
     await User.update(param, { where: {id: userId}});
     const updateUser = await this.findById(userId);
-    updateUser.password = undefined;
     return updateUser;
 }
 
@@ -63,4 +66,19 @@ exports.nearbyCoaches = async (latitude, longitude) => {
         limit: 20
     });
     return users;
+}
+
+exports.updateUserSports = async (userId, sports) => {
+    let newSports = [];
+    sports.forEach(sport => {
+        newSports.push({
+            userId: userId,
+            sportId: sport.sportId,
+            isPrimary: sport.isPrimary
+        });
+    });
+    await UserSport.destroy({where: {userId: userId}});
+    let result = await UserSport.bulkCreate(newSports);
+    await User.update({isProfileComplete: true}, { where: {id: userId}});
+    return result;
 }

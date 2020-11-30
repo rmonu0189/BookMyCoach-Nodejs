@@ -12,6 +12,7 @@ module.exports = function () {
                 const existingUser = await user.findById(result.userId)
                 if(existingUser) {
                     req.currentUser = existingUser
+                    req.token = token
                     next()
                 } else {
                     return response.failed(res, 401, "Your access token has been expired.")

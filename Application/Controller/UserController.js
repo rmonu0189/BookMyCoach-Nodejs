@@ -48,7 +48,8 @@ exports.updateProfile = async (req, res) => {
     const latitude = req.body.latitude || null;
     const longitude = req.body.longitude || null;
     const profilePhoto = req.body.profilePhoto || null;
-    const updatedUser = await user.update(userId, fullName, bio, price, profilePhoto, latitude, longitude);
+    const isProfileComplete = req.currentUser.userType == 'player' || req.currentUser.isProfileComplete == true;
+    const updatedUser = await user.update(userId, fullName, bio, price, profilePhoto, latitude, longitude, isProfileComplete);
     return response.success(res, 'User updated successfully', updatedUser);
 }
 
@@ -57,4 +58,18 @@ exports.nearbyCoaches = async (req, res) => {
     const longitude = req.body.longitude || 0;
     const users = await user.nearbyCoaches(latitude, longitude);
     return response.success(res, '', users);
+}
+
+exports.updateUserSports = async (req, res) => {
+    const sports = req.body.sports;
+    const userId = req.currentUser.id;
+    await user.updateUserSports(userId, sports);
+    const updatedUser = await user.findById(userId);
+    return response.success(res, '', updatedUser);
+}
+
+exports.logout = async (req, res) => {
+    const token = req.token;
+    accessToken.destroy(token)
+    return response.success(res, 'User logged out success.', {});
 }

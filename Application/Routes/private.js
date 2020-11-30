@@ -15,7 +15,9 @@ const version = '/api/v1'
 
 app.get(version + '/user', userController.getUser);
 app.put(version + '/user', validate(requestBody.user.update), userController.updateProfile);
+app.put(version + '/user/sports', userController.updateUserSports);
 app.get(version + '/coach/nearby', userController.nearbyCoaches);
+app.delete(version + '/user/logout', userController.logout);
 
 // ######################################
 // ############ End Private Routes #######
