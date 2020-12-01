@@ -1,5 +1,5 @@
 'use strict';
-const messages = require('./StatusCode');
+const messages = require('../Constant/StatusCode');
 
 exports.success = (res, message, data) => {
     res.setHeader("Content-Type", "application/json");

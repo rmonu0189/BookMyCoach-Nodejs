@@ -26,7 +26,6 @@ exports.loginByEmail = async (req, res) => {
 }
 
 exports.register = async (req, res) => {
-    const fullName = req.body.fullName;
     const email = req.body.email;
     const password = SHA512(req.body.password);
     const userType = req.body.userType;
@@ -35,7 +34,7 @@ exports.register = async (req, res) => {
     if (existing) {
         return response.failed(res, 600)
     } else {
-        await user.create(fullName, email, password, userType);
+        await user.create(email, password, userType);
         return this.loginByEmail(req, res);
     }
 }

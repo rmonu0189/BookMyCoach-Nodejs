@@ -13,20 +13,30 @@ exports.findByEmail = async (email) => {
 exports.findById = async (userId) => {
     const result = await User.findOne({ 
         where: {id: userId},
-        include: {model: UserSport, as: 'userSports'},
+        include: {
+            model: UserSport, as: 'userSports', attributes: ['id', 'sportId'],
+            include: {model: Sport, as: 'sport'},
+        },
         attributes: ['id', 'fullName', 'email', 'mobile', 'profilePhoto', 'userType', 'bio', 'price', 'rating', 'latitude', 'longitude', 'isProfileComplete']
     });
     return result;
 }
 
 exports.findByEmailAndPassword = async (email, password) => {
-    const result = await User.findOne({ where: {email: email, password: password}});
+    const result = await User.findOne({ 
+        where: {email: email, password: password},
+        include: {
+            model: UserSport, as: 'userSports', attributes: ['id', 'sportId'],
+            include: {model: Sport, as: 'sport'},
+        },
+        attributes: ['id', 'fullName', 'email', 'mobile', 'profilePhoto', 'userType', 'bio', 'price', 'rating', 'latitude', 'longitude', 'isProfileComplete']
+    });
     return result;
 }
 
-exports.create = async (fullName, email, password, userType) => {
+exports.create = async (email, password, userType) => {
     const param = {
-        fullName: fullName,
+        fullName: "",
         email: email,
         password: password,
         userType: userType
