@@ -44,3 +44,9 @@ exports.acceptPendingBookingByCoach = async (req, res) => {
     }
 }
 
+exports.getMyBookings = async (req, res) => {
+    const userId = req.currentUser.id;
+    const userType = req.currentUser.userType;
+    const result = await Booking.getMyBookings(userId, userType);
+    return response.success(res, 'My bookings', result);
+}

@@ -11,6 +11,27 @@ module.exports = (sequelize, DataTypes) => {
       return result;
     }
 
+    static async getMyBookings(userId, userType) {
+      const model = require('./index');
+      if(userType === 'player') {
+        const result = await Booking.findAll({
+          where: {userId: userId},
+          include: [
+            {model: model.User, as: 'coach', attributes: ['id', 'fullName', 'profilePhoto']}
+          ]
+        });
+        return result;
+      } else {
+        const result = await Booking.findAll({
+          where: {coachId: userId},
+          include: [
+            {model: model.User, as: 'user', attributes: ['id', 'fullName', 'profilePhoto']},
+          ]
+        });
+        return result;
+      }
+    }
+
     static async getCoachPendingBookings(coachId) {
       const model = require('./index');
       const result = await Booking.findAll({
