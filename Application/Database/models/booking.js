@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         const result = await Booking.findAll({
           where: {userId: userId},
           include: [
-            {model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto']}
+            {model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType']}
           ]
         });
         return result;
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         const result = await Booking.findAll({
           where: {coachId: userId},
           include: [
-            {model: model.User, as: 'user', attributes: ['id', 'email','fullName', 'profilePhoto']},
+            {model: model.User, as: 'user', attributes: ['id', 'email','fullName', 'profilePhoto', 'userType']},
           ]
         });
         return result;
@@ -37,8 +37,8 @@ module.exports = (sequelize, DataTypes) => {
       const result = await Booking.findAll({
         where: {coachId: coachId, status: 'pending'},
         include: [
-          {model: model.User, as: 'user', attributes: ['id', 'email', 'fullName', 'profilePhoto']},
-          {model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto']}
+          {model: model.User, as: 'user', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType']},
+          {model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType']}
         ]
       })
       return result;
@@ -49,8 +49,8 @@ module.exports = (sequelize, DataTypes) => {
       const result = await Booking.findAll({
         where: {userId: userId, status: 'pending'},
         include: [
-          {model: model.User, as: 'user', attributes: ['id', 'email', 'fullName', 'profilePhoto']},
-          {model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto']}
+          {model: model.User, as: 'user', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType']},
+          {model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType']}
         ]
       })
       return result;
