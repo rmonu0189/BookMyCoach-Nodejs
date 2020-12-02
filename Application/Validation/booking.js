@@ -10,6 +10,7 @@ exports.bookingRequest = {
 
 exports.acceptBooking = {
     body: Joi.object({
-        bookingId: Joi.number().required()
+        bookingId: Joi.number().required(),
+        isAccepted: Joi.boolean().required()
     }).unknown(true)
 }

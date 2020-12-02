@@ -30,11 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         const result = await Booking.findAll({
           where: {coachId: userId},
           include: [
-            {model: model.User, as: 'user', attributes: ['id', 'email','fullName', 'profilePhoto', 'userType'],
-            include: {
-              model: model.UserSport, as: 'userSports', attributes: ['id', 'sportId'],
-              include: {model: model.Sport, as: 'sport'},
-          }
+            {model: model.User, as: 'user', attributes: ['id', 'email','fullName', 'profilePhoto', 'userType']
           },
           ]
         });
@@ -98,11 +94,11 @@ module.exports = (sequelize, DataTypes) => {
       return result;
     }
 
-    static async acceptBooking(bookingId) {
+    static async acceptBooking(bookingId, isAccepted) {
       const params = {
         responseDate: new Date(),
         paymentDate: new Date(),
-        status: 'active'
+        status: isAccepted ? 'active' : 'rejected'
       }
       await Booking.update(params, { where: {id: bookingId}})
     }

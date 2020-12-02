@@ -34,8 +34,9 @@ exports.getUserPendingBookings = async (req, res) => {
 
 exports.acceptPendingBookingByCoach = async (req, res) => {
     const userId = req.currentUser.id;
+    const isAccepted = req.body.isAccepted;
     const bookingId = req.body.bookingId;
-    const findBooking = await Booking.getBookingById(bookingId);
+    const findBooking = await Booking.getBookingById(bookingId, isAccepted);
     if(findBooking && findBooking.coachId == userId) {
         await Booking.acceptBooking(bookingId);
         return response.success(res, 'Booking accepted', {});
