@@ -8,5 +8,6 @@ exports.codes = {
     600: "User already exist",
     601: "You don't have permission to update this user's profile",
     602: "You have entered invalid credentials",
-    603: "Old password does not match"
+    603: "Old password does not match",
+    604: 'You are not authorize to perform this operation'
 }

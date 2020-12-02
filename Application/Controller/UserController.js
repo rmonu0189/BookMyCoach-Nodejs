@@ -3,7 +3,6 @@ const response = require('../Model/Response');
 const user = require('../Model/User');
 const SHA512 = require('js-sha512')
 const accessToken = require('../Model/AccessToken');
-const { use } = require('../Routes/public');
 
 exports.getUser = (req, res) => {
     const user = req.currentUser;

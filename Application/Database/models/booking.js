@@ -2,8 +2,60 @@
 const {
   Model
 } = require('sequelize');
+const { booking } = require('../../Validation');
 module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
+
+    static async getBookingById(bookingId) {
+      const result = await Booking.findOne({where: {id: bookingId}});
+      return result;
+    }
+
+    static async getCoachPendingBookings(coachId) {
+      const model = require('./index');
+      const result = await Booking.findAll({
+        where: {coachId: coachId, status: 'pending'},
+        include: [
+          {model: model.User, as: 'user', attributes: ['id', 'fullName', 'profilePhoto']},
+          {model: model.User, as: 'coach', attributes: ['id', 'fullName', 'profilePhoto']}
+        ]
+      })
+      return result;
+    }
+
+    static async getUserPendingBookings(userId) {
+      const model = require('./index');
+      const result = await Booking.findAll({
+        where: {userId: userId, status: 'pending'},
+        include: [
+          {model: model.User, as: 'user', attributes: ['id', 'fullName', 'profilePhoto']},
+          {model: model.User, as: 'coach', attributes: ['id', 'fullName', 'profilePhoto']}
+        ]
+      })
+      return result;
+    }
+
+    static async sendBookingRequest(userId, coachId, sessionStartDateTime, numberOfSession) {
+      const params = {
+        userId: userId,
+        coachId: coachId,
+        sessionStartDateTime: sessionStartDateTime,
+        numberOfSession: numberOfSession,
+        status: 'pending'
+      }
+      const result = await Booking.create(params);
+      return result;
+    }
+
+    static async acceptBooking(bookingId) {
+      const params = {
+        responseDate: new Date(),
+        paymentDate: new Date(),
+        status: 'active'
+      }
+      await Booking.update(params, { where: {id: bookingId}})
+    }
+
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
