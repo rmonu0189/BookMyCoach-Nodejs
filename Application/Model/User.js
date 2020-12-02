@@ -1,6 +1,7 @@
 'use strict';
 const User      = require('../Database/models').User;
 const UserSport     = require('../Database/models').UserSport;
+const Booking     = require('../Database/models').Booking;
 const Sport     = require('../Database/models').Sport;
 const { array } = require('joi');
 const sequelize = require('sequelize');
@@ -66,11 +67,10 @@ exports.nearbyCoaches = async (latitude, longitude) => {
             'id', 'fullName', 'email', 'mobile', 'profilePhoto', 'userType', 'bio', 'price', 'rating', 'latitude', 'longitude',
             [sequelize.literal("6371 * acos(cos(radians("+latitude+")) * cos(radians(latitude)) * cos(radians("+longitude+") - radians(longitude)) + sin(radians("+latitude+")) * sin(radians(latitude)))"),'distance']
         ],
-        include: {
-            model: UserSport, 
-            as: 'userSports',
-            include: {model: Sport, as: 'sport'}
-        },
+        include: [
+            {model: UserSport, as: 'userSports', include: {model: Sport, as: 'sport'}},
+            {model: Booking, as: 'bookings'}
+        ],
         where: {userType: 'coach', isProfileComplete: true},
         order: sequelize.col('distance'),
         limit: 20
