@@ -61,7 +61,7 @@ exports.update = async (userId, fullName, bio, price, profilePhoto, latitude, lo
     return updateUser;
 }
 
-exports.nearbyCoaches = async (latitude, longitude) => {
+exports.nearbyCoaches = async (userId, latitude, longitude) => {
     const users = await User.findAll({
         attributes: [
             'id', 'fullName', 'email', 'mobile', 'profilePhoto', 'userType', 'bio', 'price', 'rating', 'latitude', 'longitude',

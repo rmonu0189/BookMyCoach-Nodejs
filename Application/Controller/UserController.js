@@ -52,9 +52,10 @@ exports.updateProfile = async (req, res) => {
 }
 
 exports.nearbyCoaches = async (req, res) => {
+    const userId = req.currentUser.id;
     const latitude = req.body.latitude || 0;
     const longitude = req.body.longitude || 0;
-    const users = await user.nearbyCoaches(latitude, longitude);
+    const users = await user.nearbyCoaches(userId, latitude, longitude);
     return response.success(res, '', users);
 }
 
