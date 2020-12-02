@@ -17,7 +17,12 @@ module.exports = (sequelize, DataTypes) => {
         const result = await Booking.findAll({
           where: {userId: userId},
           include: [
-            {model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType']}
+            {model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType'],
+            include: {
+              model: model.UserSport, as: 'userSports', attributes: ['id', 'sportId'],
+              include: {model: model.Sport, as: 'sport'},
+          }
+        }
           ]
         });
         return result;
@@ -25,7 +30,12 @@ module.exports = (sequelize, DataTypes) => {
         const result = await Booking.findAll({
           where: {coachId: userId},
           include: [
-            {model: model.User, as: 'user', attributes: ['id', 'email','fullName', 'profilePhoto', 'userType']},
+            {model: model.User, as: 'user', attributes: ['id', 'email','fullName', 'profilePhoto', 'userType'],
+            include: {
+              model: model.UserSport, as: 'userSports', attributes: ['id', 'sportId'],
+              include: {model: model.Sport, as: 'sport'},
+          }
+          },
           ]
         });
         return result;
@@ -37,8 +47,20 @@ module.exports = (sequelize, DataTypes) => {
       const result = await Booking.findAll({
         where: {coachId: coachId, status: 'pending'},
         include: [
-          {model: model.User, as: 'user', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType']},
-          {model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType']}
+          {
+            model: model.User, as: 'user', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType'],
+            include: {
+              model: model.UserSport, as: 'userSports', attributes: ['id', 'sportId'],
+              include: {model: model.Sport, as: 'sport'},
+          }
+          },
+          {
+            model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType'],
+            include: {
+              model: model.UserSport, as: 'userSports', attributes: ['id', 'sportId'],
+              include: {model: model.Sport, as: 'sport'},
+          }
+          }
         ]
       })
       return result;
@@ -49,8 +71,16 @@ module.exports = (sequelize, DataTypes) => {
       const result = await Booking.findAll({
         where: {userId: userId, status: 'pending'},
         include: [
-          {model: model.User, as: 'user', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType']},
-          {model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType']}
+          {model: model.User, as: 'user', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType'], 
+          include: {
+            model: model.UserSport, as: 'userSports', attributes: ['id', 'sportId'],
+            include: {model: model.Sport, as: 'sport'},
+        }},
+          {model: model.User, as: 'coach', attributes: ['id', 'email', 'fullName', 'profilePhoto', 'userType'], 
+          include: {
+            model: model.UserSport, as: 'userSports', attributes: ['id', 'sportId'],
+            include: {model: model.Sport, as: 'sport'},
+        }}
         ]
       })
       return result;
